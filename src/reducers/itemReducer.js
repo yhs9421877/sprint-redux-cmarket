@@ -5,18 +5,30 @@ const itemReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case ADD_TO_CART:
-      //TODO
+      return Object.assign({}, state, {
+        cartItems: [...state.cartItems, action.payload]
+      })
 
-      break;
     case REMOVE_FROM_CART:
-      //TODO
-
-      break;
+      /*
+      const _obj = state.map(ele => ele);
+      _obj.cartItems = cartItems.filter(ele => ele.itemId !== action.payload.itemId)
+      return _obj;
+       */
+      return Object.assign({}, state, {
+        cartItems: state.cartItems.filter(ele => ele.itemId !== action.payload.itemId)
+      })
     case SET_QUANTITY:
       let idx = state.cartItems.findIndex(el => el.itemId === action.payload.itemId)
-      //TODO
-
-      break;
+      return Object.assign({}, state, {
+        cartItems: state.cartItems.map((ele, index) => {
+          if(index === idx) {
+            ele.quantity = action.payload.quantity;
+          }
+          return ele;
+        })
+      })
+      
     default:
       return state;
   }
